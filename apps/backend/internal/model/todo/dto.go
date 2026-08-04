@@ -50,7 +50,7 @@ type GetTodosQuery struct {
 	Order        *string    `query:"order" validate:"omitempty,oneof=asc desc"`
 	Search       *string    `query:"search" validate:"omitempty,min=1"`
 	Status       *Status    `query:"status" validate:"omitempty,oneof=draft active completed archived"`
-	Pirority     *Priority  `query:"priority" validate:"omitempty,oneof=low medium high"`
+	Priority     *Priority  `query:"priority" validate:"omitempty,oneof=low medium high"`
 	CategoryID   *uuid.UUID `query:"categoryId" validate:"omitempty,uuid"`
 	ParentTodoID *uuid.UUID `query:"parentTodoId" validate:"omitempty,uuid"`
 	DueFrom      *time.Time `query:"dueFrom"`
@@ -99,7 +99,7 @@ func (p *GetTodoByIDPayload) Validate() error {
 
 // ========================================
 type DeleteTodoPayload struct {
-	ID uuid.UUID `param:"id" validate:"required, uuid"`
+	ID uuid.UUID `param:"id" validate:"required,uuid"`
 }
 
 func (p *DeleteTodoPayload) Validate() error {
