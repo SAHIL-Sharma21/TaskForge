@@ -109,7 +109,7 @@ func (r *TodoRepository) GetTodoByID(ctx context.Context, userID string, todoID 
 			),
 			'[]'::JSONB
 		) AS comments,
-		COASLESCE(
+		COALESCE(
 			jsonb_agg(
 				to_jsonb(camel (att))
 				ORDER BY
@@ -167,7 +167,7 @@ func (r *TodoRepository) CheckTodoExists(ctx context.Context, userID string, tod
 		"user_id": userID,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to check if todo exists for todo_id=%s user_id=%s: %s", todoID.String(), userID, err)
+		return nil, fmt.Errorf("failed to check if todo exists for todo_id=%s user_id=%s: %w", todoID.String(), userID, err)
 	}
 
 	todoItem, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[todo.Todo])
@@ -181,7 +181,7 @@ func (r *TodoRepository) CheckTodoExists(ctx context.Context, userID string, tod
 func (r *TodoRepository) GetTodos(ctx context.Context, userID string, query *todo.GetTodosQuery) (*model.PaginatedResponse[todo.PopulatedTodo], error) {
 	stmt := `
 	SELECT 
-		t.*
+		t.*,
 		CASE
 			WHEN c.id IS NOT NULL THEN to_jsonb(camel (c))
 			ELSE NULL
@@ -225,7 +225,7 @@ func (r *TodoRepository) GetTodos(ctx context.Context, userID string, query *tod
 		LEFT JOIN todo_categories c ON c.id=t.category_id
 		AND c.user_id=@user_id
 		LEFT JOIN todos child ON child.parent_todo_id=t.id
-		AND child.user=@user_id
+		AND child.user_id=@user_id
 		LEFT JOIN todo_comments com ON com.todo_id=t.id
 		AND com.user_id=@user_id
 		LEFT JOIN todo_attachments att ON att.todo_id=t.id
@@ -440,7 +440,7 @@ func (r *TodoRepository) DeleteTodo(ctx context.Context, userID string, todoID u
 
 	if result.RowsAffected() == 0 {
 		code := "TODO_NOT_FOUND"
-		return errs.NewNotFoundError("todo not fount", false, &code)
+		return errs.NewNotFoundError("todo not found", false, &code)
 	}
 
 	return nil
