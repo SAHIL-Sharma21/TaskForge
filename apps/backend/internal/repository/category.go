@@ -66,7 +66,7 @@ func (r *CategoryRepository) GetCategoryByID(ctx context.Context, userID string,
 		SELECT 
 			*
 		FROM
-			todo_catrgories
+			todo_categories
 		WHERE
 			id=@id
 			AND user_id=@user_id
