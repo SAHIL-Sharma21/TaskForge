@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"github.com/SAHIL-Sharma21/go-taskForge/internal/model"
+	"github.com/SAHIL-Sharma21/go-taskForge/internal/model/category"
+	"github.com/SAHIL-Sharma21/go-taskForge/internal/model/comment"
 	"github.com/google/uuid"
 )
 
@@ -46,10 +48,26 @@ type MetaData struct {
 	Difficulty *int     `json:"difficulty"`
 }
 
-// type PopulatedTodo struct {
-// 	Todo
-// 	Category *category.Category `json:"category" db:"category"`
-// 	Children []Todo `json:"children" db:"children"`
-// 	Comments []comment.Comment `json:"comments" db:"comments"`
-// 	Attache
-// }
+type PopulatedTodo struct {
+	Todo
+	Category *category.Category `json:"category" db:"category"`
+	Children []Todo             `json:"children" db:"children"`
+	Comments []comment.Comment  `json:"comments" db:"comments"`
+}
+
+type TodoStats struct {
+	Total     int `json:"total"`
+	Draft     int `json:"draft"`
+	Active    int `json:"active"`
+	Completed int `json:"completed"`
+	Archived  int `json:"archived"`
+	Overdue   int `json:"overdue"`
+}
+
+func (t *Todo) IsOverdue() bool {
+	return t.DueDate != nil && t.DueDate.Before(time.Now()) && t.Status != StatusCompleted
+}
+
+func (t *Todo) CanHaveChildren() bool {
+	return t.ParentTodoID == nil
+}
