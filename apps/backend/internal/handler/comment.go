@@ -34,7 +34,7 @@ func (h *CommentHandler) AddComment(c echo.Context) error {
 	)(c)
 }
 
-func (h *CommentHandler) GetCommentsByTodoUD(c echo.Context) error {
+func (h *CommentHandler) GetCommentsByTodoID(c echo.Context) error {
 	return Handle(
 		h.Handler,
 		func(c echo.Context, payload *comment.GetCommentsByTodoIDPayload) ([]comment.Comment, error) {
