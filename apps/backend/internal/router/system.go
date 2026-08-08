@@ -6,7 +6,8 @@ import (
 )
 
 func registerSystemRoutes(r *echo.Echo, h *handler.Handlers) {
-	r.GET("/status", h.Health.CheckHealth)
+	api := r.Group("/api")
+	api.GET("/status", h.Health.CheckHealth)
 
 	r.Static("/static", "static")
 
