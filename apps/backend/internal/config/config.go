@@ -19,6 +19,7 @@ type Config struct {
 	Redis         RedisConfig          `koanf:"redis" validate:"required"`
 	Integration   IntegrationConfig    `koanf:"integration" validate:"required"`
 	Observability *ObservabilityConfig `koanf:"observability"`
+	Cron          *CronConfig          `koanf:"cron"`
 }
 
 type Primary struct {
@@ -57,6 +58,90 @@ type IntegrationConfig struct {
 // use by clerk
 type AuthConfig struct {
 	SecretKey string `koanf:"secret_key" validate:"required"`
+}
+
+type CronConfig struct {
+	ArchiveDaysThreshold        int `koanf:"archive_days_threshold"`
+	BatchSize                   int `koanf:"batch_size"`
+	ReminderHours               int `koanf:"reminder_hours"`
+	MaxTodosPerUserNotification int `koanf:"max_todos_per_user_notification"`
+}
+
+func DefaultCronConfig() *CronConfig {
+	return &CronConfig{
+		ArchiveDaysThreshold:        30,
+		BatchSize:                   100,
+		ReminderHours:               24,
+		MaxTodosPerUserNotification: 10,
+	}
+}
+
+func parseMapString(value string) (map[string]string, bool) {
+	if !strings.HasPrefix(value, "map[") || !strings.HasSuffix(value, "]") {
+		return nil, false
+	}
+
+	content := strings.TrimPrefix(value, "map[")
+	content = strings.TrimSuffix(content, "]")
+
+	if content == "" {
+		return make(map[string]string), true
+	}
+
+	result := make(map[string]string)
+
+	i := 0
+	for i < len(content) {
+		keyStart := 1
+		for i < len(content) && content[i] != ':' {
+			i++
+		}
+		if i >= len(content) {
+			break
+		}
+
+		key := strings.TrimSpace(content[keyStart:i])
+		i++
+
+		valueStart := i
+		if i+4 <= len(content) && content[i:i+4] == "map[" {
+			bracketCount := 0
+			for i < len(content) {
+				if i+3 <= len(content) && content[i:i+4] == "map[" {
+					bracketCount++
+					i += 4
+				} else if content[i] == ']' {
+					bracketCount--
+					i++
+					if bracketCount == 0 {
+						break
+					}
+				} else {
+					i++
+				}
+			}
+		} else {
+			for i < len(content) && content[i] != ' ' {
+				i++
+			}
+		}
+
+		value := strings.TrimSpace(content[valueStart:i])
+
+		if nestedMap, isNested := parseMapString(value); isNested {
+			for nestedKey, nestedValue := range nestedMap {
+				result[key+"."+nestedKey] = nestedValue
+			}
+		} else {
+			result[key] = value
+		}
+
+		for i < len(content) && content[i] == ' ' {
+			i++
+		}
+	}
+
+	return result, true
 }
 
 // takes all the env and loads it
