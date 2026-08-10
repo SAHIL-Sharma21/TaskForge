@@ -44,7 +44,7 @@ type ReminderEmailTask struct {
 	TaskType  string    `json:"task_type"` // "due_date_reminder" or "overdue_notification"
 }
 
-func EnqueueReminderEmaik(client *asynq.Client, task *ReminderEmailTask) error {
+func EnqueueReminderEmail(client *asynq.Client, task *ReminderEmailTask) error {
 	payload, err := json.Marshal(task)
 	if err != nil {
 		return err
