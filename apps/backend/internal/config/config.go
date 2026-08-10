@@ -92,7 +92,7 @@ func parseMapString(value string) (map[string]string, bool) {
 
 	i := 0
 	for i < len(content) {
-		keyStart := 1
+		keyStart := i
 		for i < len(content) && content[i] != ':' {
 			i++
 		}
@@ -107,7 +107,7 @@ func parseMapString(value string) (map[string]string, bool) {
 		if i+4 <= len(content) && content[i:i+4] == "map[" {
 			bracketCount := 0
 			for i < len(content) {
-				if i+3 <= len(content) && content[i:i+4] == "map[" {
+				if i+4 <= len(content) && content[i:i+4] == "map[" {
 					bracketCount++
 					i += 4
 				} else if content[i] == ']' {
