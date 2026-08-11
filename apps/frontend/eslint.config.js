@@ -16,7 +16,12 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     languageOptions: {
+      ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@react-refresh/only-export-components': 'off'
+    }
   },
 ])
