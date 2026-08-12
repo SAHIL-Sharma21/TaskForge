@@ -59,11 +59,11 @@ export function AppLayout({children}: AppLayoutProps){
         <div className="min-h-screen bg-background">
         {/* Desktop Sidebar */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
-          <div className="flex flex-col flex-grow pt-5 bg-card border-r overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
+          <div className="flex flex-col grow pt-5 bg-card border-r overflow-y-auto">
+            <div className="flex items-center shrink-0 px-4">
               <h1 className="text-xl font-bold">Tasker</h1>
             </div>
-            <div className="mt-8 flex-grow flex flex-col">
+            <div className="mt-8 grow flex flex-col">
               <nav className="flex-1 px-4 space-y-1">
                 <NavigationItems />
               </nav>
