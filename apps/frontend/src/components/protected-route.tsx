@@ -6,7 +6,7 @@ interface ProtectedRouteProps {
     children: ReactNode;
 };
 
-export function ProctedRoute({children}: ProtectedRouteProps) {
+export function ProctectedRoute({children}: ProtectedRouteProps) {
     const {isLoaded, isSignedIn} = useAuth();
 
     if(!isLoaded){
