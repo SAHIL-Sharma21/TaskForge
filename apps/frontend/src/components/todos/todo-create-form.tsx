@@ -98,7 +98,7 @@ export function TodoCreateForm({children}: TodoCreateFormProps){
 
     const onSubmit = async (data: CreateTodoForm) => {
         try {
-          const createdTodo = await createTodo.mutateAsync({
+          await createTodo.mutateAsync({
             body: {
               title: data.title,
               description: data.description || undefined,
@@ -129,7 +129,7 @@ export function TodoCreateForm({children}: TodoCreateFormProps){
     return (
         <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-150">
         <DialogHeader>
           <DialogTitle>Create New Task</DialogTitle>
         </DialogHeader>
@@ -328,7 +328,7 @@ export function TodoCreateForm({children}: TodoCreateFormProps){
                   {attachments.map((file, index) => (
                     <div key={index} className="flex items-center justify-between p-2 bg-muted rounded-md">
                       <div className="flex items-center gap-2 min-w-0 flex-1">
-                        <Upload className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <Upload className="h-4 w-4 text-muted-foreground shrink-0" />
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium truncate">{file.name}</p>
                           <p className="text-xs text-muted-foreground">
