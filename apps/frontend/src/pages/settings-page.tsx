@@ -240,7 +240,7 @@ export function SettingsPage() {
       {/* App Information */}
       <Card>
         <CardHeader>
-          <CardTitle>About Tasker</CardTitle>
+          <CardTitle>About TaskForge</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">

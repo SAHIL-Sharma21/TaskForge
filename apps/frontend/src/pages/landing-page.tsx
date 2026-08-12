@@ -10,7 +10,7 @@ export function LandingPage(){
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <h1 className="text-2xl font-bold">Tasker</h1>
+            <h1 className="text-2xl font-bold">TaskForge</h1>
           </div>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
@@ -32,7 +32,7 @@ export function LandingPage(){
             <span className="text-primary"> Task Manager</span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Organize your life with Tasker - a powerful, intuitive task management
+            Organize your life with TaskForge - a powerful, intuitive task management
             app that helps you stay productive and focused on what matters most.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -96,7 +96,7 @@ export function LandingPage(){
             Ready to get organized?
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-xl mx-auto">
-            Join thousands of users who have transformed their productivity with Tasker.
+            Join thousands of users who have transformed their productivity with TaskForge.
           </p>
           <Link to="/auth/sign-up">
             <Button size="lg" className="text-lg px-8 py-3">
@@ -110,7 +110,7 @@ export function LandingPage(){
       <footer className="border-t py-8 px-4">
         <div className="container mx-auto text-center">
           <p className="text-muted-foreground">
-            © 2025 Tasker. Built with care for productivity enthusiasts.
+            © 2025 TaskForge. Built with care for productivity enthusiasts.
           </p>
         </div>
       </footer>
